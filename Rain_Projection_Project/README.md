@@ -1,69 +1,125 @@
-# Rain Projection
+# Rain Projection 🌧️
+### Satellite-Based Rainfall Trend Analysis for Vidarbha, Maharashtra
 
-**Project:** Rain Projection  
-**Study region:** Vidarbha, Maharashtra, India  
-**Challenge:** NASA Space Apps Challenge 2026 — Challenge 02, *Be an Earth System Trend Detective!*
+**Challenge:** NASA Space Apps Challenge 2026 — Challenge 02: *Be an Earth System Trend Detective!*  
+**Study Region:** Vidarbha, Maharashtra, India  
+**Primary Data Source:** NASA Global Precipitation Measurement (GPM) — IMERG
 
-## What this demo does
-- Loads a bundled illustrative monthly rainfall CSV or a user-uploaded CSV.
-- Displays average precipitation by month.
-- Calculates June–September monsoon totals by year.
-- Displays a yearly monsoon chart and a linear trend line.
-- Reports a Kendall rank trend test and a linear regression slope.
-- Lets users download cleaned data.
+## Project Overview
 
-## Important data note
-`data/sample_rainfall_demo.csv` is **synthetic illustrative data** created only to demonstrate the software. It is not NASA data and must not be cited as an observed rainfall record. Upload an actual NASA Giovanni GPM IMERG monthly time-series export before reporting scientific findings.
+Rain Projection is a satellite-based rainfall monitoring and historical trend-analysis application developed to study precipitation patterns in Vidarbha, Maharashtra.
 
-## Run locally
-1. Install Python 3.10 or newer.
-2. Open a terminal in this folder.
-3. Create and activate a virtual environment (recommended).
-4. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-5. Start the demo:
-   ```bash
-   streamlit run app.py
-   ```
-6. Open the local URL printed by Streamlit (usually `http://localhost:8501`).
+The project is designed around NASA's Global Precipitation Measurement (GPM) Integrated Multi-satellitE Retrievals for GPM (IMERG) dataset. Using monthly precipitation data accessed through NASA Giovanni, the application provides a framework for examining rainfall variability, monsoon patterns, and long-term precipitation trends.
 
-## NASA data workflow
-1. Open https://giovanni.gsfc.nasa.gov/
-2. Find the GPM IMERG monthly precipitation product. The product identifier commonly shown is `GPM_3IMERGM`; verify the current version and product description in Giovanni.
-3. Choose a spatial selection representing Vidarbha and a supported historical period.
-4. Request a monthly time-series / area-average output and download its CSV.
-5. Upload the CSV in the app and map the date and precipitation columns.
-6. Verify units (the app expects precipitation depth in mm per month), missing values, selected region, and data coverage.
+The goal is to make satellite-derived rainfall information easier to explore and understand, particularly in a region where agriculture and water resources depend heavily on monsoon rainfall.
 
-The exact export format may vary, so the app includes column selectors rather than assuming fixed column names.
+## Key Features
 
-## Analysis notes
-- Monsoon season is defined here as June, July, August, and September.
-- The yearly monsoon value is the sum of those monthly values for each year.
-- The trend test uses Kendall's rank correlation (`scipy.stats.kendalltau`) as a simple monotonic-trend significance check.
-- The app also reports a linear regression slope in mm/year.
-- A p-value below 0.05 is conventionally treated as statistically significant for this exploratory analysis. It does not prove climate-change causation.
-- If years have missing monsoon months, totals may be incomplete. Inspect data completeness before interpreting.
+- **Monthly Rainfall Analysis:** Visualizes average precipitation patterns across the twelve months.
+- **Monsoon Rainfall Monitoring:** Calculates and displays June–September rainfall totals for individual years.
+- **Year-to-Year Comparison:** Helps explore variations in monsoon rainfall across different years.
+- **Trend Analysis:** Uses Kendall's rank correlation test to examine possible monotonic rainfall trends.
+- **Linear Regression:** Calculates the rainfall trend slope in mm/year.
+- **Data Upload:** Supports uploading NASA Giovanni precipitation time-series CSV exports.
+- **Data Export:** Allows users to download cleaned rainfall datasets for further analysis.
 
-## Suggested project summary (edit after using real NASA data)
-Rain Projection is a lightweight rainfall-trend analysis demo focused on Vidarbha, Maharashtra, a monsoon-dependent region. It uses monthly precipitation time-series data from NASA's GPM IMERG product, accessed through NASA Giovanni, to explore seasonal rainfall patterns and changes over time. The application visualizes monthly rainfall averages and June–September monsoon totals, and applies a Kendall rank trend test and linear regression to summarize possible trends. The goal is to make historical rainfall variability easier to explore for learning and discussion related to agriculture and water planning. The current bundled dataset is synthetic and is used only to demonstrate the interface; scientific findings will be generated only after a real NASA data export is uploaded. This is a historical trend-analysis tool, not a future rainfall forecasting system.
+## NASA Data Source and Methodology
 
-## Suggested demo narration (about 60–90 seconds)
-"Rain Projection is a simple tool for exploring historical monsoon rainfall in Vidarbha, Maharashtra. We use NASA GPM IMERG monthly precipitation data, accessed through Giovanni. The user can upload the downloaded CSV, and the application converts it into a clean monthly time series. It then shows the average rainfall pattern across the year and the June-to-September monsoon total for each year. Finally, it applies a Kendall trend test and calculates a linear trend slope, so users can inspect whether the historical series shows a monotonic trend. The included sample is synthetic and only demonstrates the workflow; the real analysis uses the NASA export. The project supports understanding historical rainfall variability, but it does not forecast future rainfall."
+The project is designed to use NASA GPM IMERG monthly precipitation data.
 
-## Project structure
-- `app.py` — Streamlit application
-- `data/sample_rainfall_demo.csv` — synthetic demonstration data
-- `requirements.txt` — Python dependencies
-- `PROJECT_DOCUMENTATION.pdf` — complete project report
-- `assets/` — diagrams and charts used in the report
+**Data source:**  
+NASA Giovanni — https://giovanni.gsfc.nasa.gov/
 
-## Limitations and next improvements
-- Use a clearly documented region boundary / polygon or explain the chosen bounding box.
-- Confirm the exact units and temporal interpretation of the selected NASA product.
-- Add completeness checks for all four monsoon months per year.
-- Compare with station observations or another trusted dataset for validation.
-- Consider Sen's slope and a formal Mann–Kendall implementation for a more rigorous analysis.
-- Add district-level analysis only if suitable spatial data and time are available.
+**Dataset:** GPM IMERG Monthly precipitation product (GPM_3IMERGM). The applicable product version and variable metadata should be verified when downloading data.
+
+### Data Processing Workflow
+
+1. Access monthly precipitation data through NASA Giovanni.
+2. Select the geographical study region covering Vidarbha, Maharashtra.
+3. Generate an area-averaged monthly precipitation time series.
+4. Download the precipitation data in CSV format.
+5. Upload the dataset into the Rain Projection application.
+6. Select the date and precipitation columns.
+7. Check precipitation units, missing values, and temporal coverage.
+8. Calculate monthly and monsoon-season rainfall statistics.
+9. Analyze historical rainfall trends using statistical methods.
+
+**Precipitation units:** The application expects rainfall depth in mm/month. If the NASA export contains precipitation rate in mm/hr, it must first be converted using the correct temporal averaging period and calendar month length. Metadata must be checked before conversion.
+
+## Monsoon Analysis
+
+Vidarbha's primary monsoon analysis period is defined as June, July, August, and September (JJAS).
+
+Annual monsoon rainfall is calculated as:
+
+Monsoon Rainfall = June + July + August + September
+
+The application uses this calculation to compare monsoon rainfall across years and investigate changes in seasonal precipitation.
+
+## Statistical Trend Analysis
+
+Two statistical approaches are included:
+
+**1. Kendall Rank Correlation Test**
+
+Used to examine whether rainfall exhibits a monotonic increasing or decreasing pattern over time.
+
+**2. Linear Regression**
+
+Estimates the direction and magnitude of the rainfall trend, expressed in mm/year.
+
+A p-value below 0.05 is treated as statistically significant for this exploratory analysis. Statistical significance does not establish climate-change causation.
+
+## Technologies Used
+
+- Python
+- Streamlit
+- Pandas
+- NumPy
+- Matplotlib
+- Plotly
+- SciPy
+- NASA GPM IMERG
+- NASA Giovanni
+
+## Project Structure
+
+```text
+Rain_Projection_Project/
+│
+├── app.py
+├── data/
+│   └── sample_rainfall_demo.csv
+├── assets/
+├── requirements.txt
+├── PROJECT_DOCUMENTATION.pdf
+└── README.md
+```
+
+## Project Objective and Impact
+
+Rain Projection aims to make satellite-based rainfall information more accessible and understandable.
+
+By examining historical rainfall patterns in Vidarbha, the project provides an exploratory tool that can help users understand monsoon variability, identify unusually wet or dry periods, and investigate long-term rainfall trends.
+
+The analysis may support discussions around agricultural planning, water-resource management, and regional climate variability.
+
+## Limitations and Future Improvements
+
+- Integrate and validate an actual NASA GPM IMERG data export for the study period.
+- Apply a precise Vidarbha geographical boundary for spatial averaging.
+- Improve missing-data and monsoon completeness checks.
+- Introduce Sen's slope and a formal Mann–Kendall trend analysis.
+- Compare satellite-derived rainfall with IMD ground-station observations.
+- Expand the analysis to individual districts within Vidarbha.
+- Develop automated NASA data retrieval and updates.
+
+## Important Data Transparency Note
+
+The application includes an illustrative sample CSV to demonstrate its interface and analysis workflow. This sample is synthetic and must not be interpreted as observed NASA rainfall data.
+
+NASA GPM IMERG is the intended primary observational data source. Scientific conclusions and reported rainfall trends should be based on an actual downloaded and validated NASA dataset, not the illustrative sample.
+
+## Project Summary
+
+Rain Projection is a Python and Streamlit-based satellite rainfall analysis application focused on Vidarbha, Maharashtra. Designed around NASA GPM IMERG precipitation data accessed through NASA Giovanni, it explores monthly rainfall patterns, June–September monsoon totals, year-to-year variations, and historical precipitation trends using statistical analysis. The project aims to improve understanding of regional rainfall variability and its relevance to agriculture and water-resource planning.
